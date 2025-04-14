@@ -1,0 +1,25 @@
+<div class="container mt-5">
+    <h2>Reset Password</h2>
+    <form (ngSubmit)="resetPassword()">
+      <div class="mb-3">
+        <label>Username</label>
+        <input type="text" class="form-control" [(ngModel)]="username" name="username" required>
+      </div>
+  
+      <div class="mb-3">
+        <label>Current Password</label>
+        <input type="password" class="form-control" [(ngModel)]="currentPassword" name="currentPassword" required>
+      </div>
+  
+      <div class="mb-3">
+        <label>New Password</label>
+        <input type="password" class="form-control" [(ngModel)]="newPassword" name="newPassword" required>
+      </div>
+  
+      <div *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</div>
+  
+      <button type="submit" class="btn btn-warning">Reset Password</button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="goToLogin()">Back to Login</button>
+    </form>
+  </div>
+  
