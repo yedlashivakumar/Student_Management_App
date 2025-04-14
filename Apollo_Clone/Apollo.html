@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyCheck - Breast Cancer Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        /* Top Navigation */
+        .top-nav {
+            background: #008B8B;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo img {
+            height: 40px;
+        }
+        .contact-bar {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .contact-bar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .contact-bar a:hover {
+            color: #FFD700;
+        }
+        .my-acc {
+            background: #006666;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+        /* Main Navigation */
+        .main-nav {
+            background: #008B8B;
+            padding: 15px 40px;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FFD700;
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        /* Hero Section */
+        .hero {
+            background: #FFD700;
+            padding: 60px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            min-height: 600px;
+        }
+        .hero-content {
+            max-width: 600px;
+        }
+        .main-heading {
+            font-size: 48px;
+            font-weight: 700;
+            color: #333;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .sub-heading {
+            font-size: 24px;
+            color: #444;
+            margin-bottom: 30px;
+        }
+        /* Form Container */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .form-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: #f5f5f5;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .form-tab.active {
+            background: #008B8B;
+            color: white;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            border-color: #008B8B;
+            box-shadow: 0 0 0 2px rgba(0,139,139,0.1);
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #FFD700;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover {
+            background: #008B8B;
+            color: white;
+            transform: translateY(-2px);
+        }
+        /* Features section */
+        .features {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Statistics section */
+        .stats {
+            padding: 50px 20px;
+            background: #f5f5f5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+       
+        /* FAQ section */
+        .faq {
+            padding: 50px 20px;
+            max-width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .faq-item {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            cursor: pointer;
+            background: #f9f9f9;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question {
+            color: #008B8B;
+            font-weight: bold;
+            flex-grow: 1;
+        }
+
+        .faq-icon {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            font-size: 18px;
+            color: #008B8B;
+            font-weight: bold;
+        }
+
+        .faq-answer {
+            display: none;
+            padding-top: 10px;
+            color: #333;
+        }
+
+        /* Footer */
+        .footer {
+            background: #008B8B;
+            color: white;
+            padding: 50px 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content {
+                padding-right: 0;
+            }
+
+            .form-container {
+                margin: 20px auto;
+            }
+        }
+
+        /* Success message */
+        .success-message {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-contact-bar">
+        <div class="container">
+            <div class="contact-info">
+                <a href="tel:04048964515"><i class="fas fa-globe"></i> 040 48964515</a>
+                <a href="tel:18002031066"><img src="flag-icon.png" alt="Flag" class="flag-icon"> 1800 203 1066</a>
+                <a href="#appointment">Appointment</a>
+                <a href="#chairman">Chairman's Message</a>
+                <a href="#location" class="dropdown">Location <i class="fas fa-chevron-down"></i></a>
+                <a href="#myacc" class="myacc">MyACC</a>
+            </div>
+        </div>
+    </div>
+    <div class="logo-section">
+        <div class="container">
+            <div class="logo-wrapper">
+                <img src="https://www.apollohospitals.com/hyderabad/wp-content/themes/apollo/assets-v3/images/logo.svg" 
+                     alt="Apollo Cancer Centres" 
+                     class="logo">
+            </div>
+            <div class="search-wrapper">
+                <input type="text" placeholder="Search" class="search-input">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+    <style>
+    .logo-section {
+        background: white;
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+    .logo-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+    .logo {
+        height: 50px;
+        width: auto;
+    }
+    .search-wrapper {
+        position: absolute;
+        right: 20px;
+        display: flex;
+        align-items: center;
+    }
+    .search-input {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        width: 250px;
+        font-size: 14px;
+    }
+    .search-btn {
+        background: none;
+        border: none;
+        margin-left: -35px;
+        color: #666;
+        cursor: pointer;
+    }
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .search-wrapper {
+            position: relative;
+            right: 0;
+            width: 100%;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+    }
+    </style>
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="#cancers">CANCERS</a></li>
+                <li><a href="#diagnostics">DIAGNOSTICS <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="#explore">EXPLORE <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="#life">LIFE AFTER CANCER <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="#news">NEWS & EVENTS <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="#oncologists">ONCOLOGISTS <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="#services">SERVICES <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="#treatments">TREATMENTS <i class="fas fa-chevron-down"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+    <style>
+    /* Top Contact Bar */
+    .top-contact-bar {
+        background: #008B8B;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .contact-info {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 20px;
+    }
+    .contact-info a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .myacc {
+        background: #006666;
+        padding: 5px 15px;
+        border-radius: 4px;
+    }
+    /* Logo Section */
+    .logo-section {
+        background: white;
+        padding: 15px 0;
+    }
+    .logo-center {
+        text-align: center;
+    }
+    .logo-center img {
+        height: 50px;
+    }
+    .search-bar {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+    }
+    .search-input {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        width: 200px;
+    }
+    /* Main Navigation */
+    .main-nav {
+        background: #008B8B;
+        padding: 12px 0;
+    }
+    .nav-menu {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .nav-menu a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .contact-info {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu {
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+    }
+    </style>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="main-heading">If you have time for a dessert. You have time to get tested</h1>
+            <p class="sub-heading">Detect Breast Cancer early with our revolutionary blood test</p>
+            <!-- <div class="brand-container">
+                <img src="https://www.apollohospitals.com/hyderabad/wp-content/themes/apollo/assets-v3/images/logo.svg" 
+                     alt="EasyCheck" class="brand-logo">
+            </div> -->
+        </div>
+        <div class="dessert-container">
+            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGVzc2VydHxlbnwwfHwwfHx8MA%3D%3D" alt="Dessert Illustration" class="dessert-image">
+        </div>
+   
+    <style>
+    .hero {
+        background: #FFD700;
+        padding: 60px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        min-height: 500px;
+        background-image: linear-gradient(45deg, #FFD700, #FFC107);
+    }
+    .hero-content {
+        max-width: 600px;
+        position: relative;
+        z-index: 2;
+    }
+    .main-heading {
+        font-size: 48px;
+        font-weight: 700;
+        color: #333;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+    .sub-heading {
+        font-size: 24px;
+        color: #444;
+        margin-bottom: 30px;
+        line-height: 1.4;
+    }
+    .brand-container {
+        margin-top: 40px;
+    }
+    .brand-logo {
+        height: 40px;
+        margin-right: 20px;
+    }
+    .hashtag {
+        font-size: 24px;
+        color: #008B8B;
+        font-weight: 500;
+    }
+    .hero-image-container {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50%;
+        max-width: 600px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .dessert-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dessert-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    object-fit: contain;
+}
+    @media (max-width: 968px) {
+        .hero {
+            flex-direction: column;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .hero-content {
+            margin-bottom: 40px;
+        }
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            transform: none;
+            margin-top: 30px;
+        }
+        .dessert-image {
+            max-width: 300px;
+        }
+    }
+    </style>
+        <!-- Form Container -->
+        <div class="form-container">
+            <div class="form-tabs">
+                <div class="form-tab active" onclick="switchTab('home')">
+                    <i class="fas fa-home"></i> Home Collection
+                </div>
+                <div class="form-tab" onclick="switchTab('hospital')">
+                    <i class="fas fa-hospital"></i> Hospital Visit
+                </div>
+            </div>
+            <form id="bookingForm" onsubmit="return handleSubmit(event)">
+                <div class="input-group">
+                    <input type="text" class="form-input" placeholder="Name" required>
+                    <span class="input-focus-border"></span>
+                </div>
+                <div class="input-group">
+                    <input type="tel" class="form-input" placeholder="Phone No." required>
+                    <span class="input-focus-border"></span>
+                </div>
+                <div class="input-group">
+                    <input type="email" class="form-input" placeholder="Email Address" required>
+                    <span class="input-focus-border"></span>
+                </div>
+                <div class="input-group">
+                    <select class="form-input" required>
+                        <option value="">Select City</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <!-- Add more cities -->
+                    </select>
+                    <span class="input-focus-border"></span>
+                </div>
+                <div class="input-group">
+                    <textarea class="form-input" placeholder="Complete Physical Address" required></textarea>
+                    <span class="input-focus-border"></span>
+                </div>
+                <div class="input-row">
+                    <div class="input-group half">
+                        <input type="text" class="form-input" placeholder="State" required>
+                        <span class="input-focus-border"></span>
+                    </div>
+                    <div class="input-group half">
+                        <input type="text" class="form-input" placeholder="Pin Code" required>
+                        <span class="input-focus-border"></span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="date" class="form-input" required>
+                    <span class="input-focus-border"></span>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <span>SUBMIT</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Your appointment has been booked successfully!</p>
+                    <p>We will contact you shortly.</p>
+                </div>
+            </form>
+        </div>
+        <style>
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .form-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: #f5f5f5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .form-tab.active {
+            background: #008B8B;
+            color: white;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #008B8B;
+            box-shadow: 0 0 0 2px rgba(0,139,139,0.1);
+        }
+        .input-focus-border {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #008B8B;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .form-input:focus + .input-focus-border {
+            width: 100%;
+        }
+        .input-row {
+            display: flex;
+            gap: 15px;
+        }
+        .half {
+            flex: 1;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #FFD700;
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .submit-btn:hover {
+            background: #008B8B;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .success-message {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        </style>
+        <script>
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.form-tab');
+            const form = document.getElementById('bookingForm');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Reset form
+            form.reset();
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        function handleSubmit(event) {
+            event.preventDefault();
+            document.getElementById('successMessage').style.display = 'block';
+            return false;
+        }
+        </script>
+ </section>
+    <!-- Features Section -->
+    <!-- Features Section -->
+<section class="features">
+    <h2 class="features-heading">Why EasyCheck - Breast™?</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <img src="clinically-validated-icon.png" alt="Clinically Validated">
+            </div>
+            <h3 class="feature-title">CLINICALLY VALIDATED</h3>
+            <p class="feature-description">EasyCheck - Breast™ has been clinically validated by one of the world's largest clinical trials. The validation spans over 34,000 known cancer patients and more than 23,000 healthy individuals.</p>
+            <div class="feature-hover-content">
+                <p>World-class validation studies published in leading journals</p>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <img src="fda-approved-icon.png" alt="FDA Approved">
+            </div>
+            <h3 class="feature-title">FDA APPROVED</h3>
+            <p class="feature-description">World's only FDA approved* blood test to detect breast cancer at an early stage</p>
+            <div class="feature-hover-content">
+                <p>Breakthrough Device Designation by the US FDA</p>
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <img src="accurate-icon.png" alt="Accurate">
+            </div>
+            <h3 class="feature-title">ACCURATE</h3>
+            <p class="feature-description">EasyCheck - Breast™ included extensive analytical and Clinical validation studies to establish its Accuracy and Reliability. It has an overall accuracy > 99%.</p>
+            <div class="feature-hover-content">
+                <p>Highly accurate results you can trust</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Features Section Styling */
+.features {
+    padding: 80px 20px;
+    background: #fff;
+}
+
+.features-heading {
+    text-align: center;
+    color: #008B8B;
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.features-heading:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #FFD700;
+    margin: 15px auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-icon img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon img {
+    transform: scale(1.1);
+}
+
+.feature-title {
+    color: #008B8B;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.feature-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.feature-hover-content {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: rgba(0,139,139,0.9);
+    color: white;
+    padding: 20px;
+    transition: bottom 0.3s ease;
+}
+
+.feature-card:hover .feature-hover-content {
+    bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .feature-card {
+        margin: 0 auto;
+        max-width: 400px;
+    }
+}
+</style>
+
+    <!-- Statistics Section -->
+    <section class="stats">
+        <h2 class="stats-heading">Cancer Facts You Should Know</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <img src="woman-icon.png" alt="Woman Icon" class="stat-image">
+                </div>
+                <h3 class="stat-number">2.3 Million</h3>
+                <p class="stat-description">cases reported annually</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <img src="group-icon.png" alt="Group Icon" class="stat-image">
+                </div>
+                <h3 class="stat-number">1 in 12</h3>
+                <p class="stat-description">urban women in India are likely to develop Breast Cancer</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <img src="calendar-icon.png" alt="Calendar Icon" class="stat-image">
+                </div>
+                <h3 class="stat-number">700,000</h3>
+                <p class="stat-description">women die of breast cancer each year</p>
+            </div>
+        </div>
+        
+        <!-- Early Detection Advantage Section -->
+        <!-- Early Detection Section -->
+<section class="early-detection">
+    <div class="detection-container">
+        <div class="detection-image-wrapper">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPXp7q1rK57lhI8xTqHVFrgl5WNZl7nkuGvA&s" 
+                 alt="Doctor Consultation" 
+                 class="detection-image">
+            <div class="image-overlay"></div>
+        </div>
+        <div class="detection-content">
+            <h2 class="detection-title">The Advantage of Early Detection</h2>
+            <div class="survival-rates">
+                <div class="rate-card early">
+                    <div class="rate-value">90%</div>
+                    <div class="rate-label">Survival Rate of Early Detection</div>
+                    <div class="rate-icons">
+                        <!-- Add 9 pink icons for 90% -->
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female grey"></i>
+                    </div>
+                </div>
+                <div class="rate-card late">
+                    <div class="rate-value">22%</div>
+                    <div class="rate-label">Survival Rate of Late Detection</div>
+                    <div class="rate-icons">
+                        <!-- Add 2 pink icons and 8 grey icons for 22% -->
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female pink"></i>
+                        <i class="fas fa-female grey"></i>
+                        <i class="fas fa-female grey"></i>
+                        <i class="fas fa-female grey"></i>
+                        <i class="fas fa-female grey"></i>
+                        <i class="fas fa-female grey"></i>
+                        <i class="fas fa-female grey"></i>
+                        <i class="fas fa-female grey"></i>
+                        <i class="fas fa-female grey"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .stats {
+        padding: 60px 20px;
+        background: #f8f9fa;
+    }
+    .stats-heading {
+        text-align: center;
+        color: #008B8B;
+        font-size: 2.5em;
+        margin-bottom: 40px;
+        position: relative;
+    }
+    .stats-heading:after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background: #FFD700;
+        margin: 15px auto;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .stat-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+    .stat-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .stat-number {
+        color: #008B8B;
+        font-size: 2.5em;
+        margin: 15px 0;
+    }
+    .stat-description {
+        color: #666;
+        font-size: 1.1em;
+        line-height: 1.4;
+    }
+.early-detection {
+    padding: 80px 20px;
+    background: #f8f9fa;
+}
+
+.detection-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.detection-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+.detection-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,139,139,0.9) 0%, rgba(0,139,139,0.7) 50%, rgba(0,139,139,0.4) 100%);
+    transition: all 0.4s ease;
+}
+
+.detection-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    width: 90%;
+    max-width: 800px;
+}
+
+.detection-title {
+    font-size: 2.8em;
+    margin-bottom: 40px;
+    color: #FFD700;
+    position: relative;
+}
+
+.detection-title:after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #FFD700;
+}
+
+.survival-rates {
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.rate-card {
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+}
+
+.rate-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.2);
+}
+
+.rate-value {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.rate-label {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.rate-icons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.fas.fa-female.pink {
+    color: #FF69B4;
+}
+
+.fas.fa-female.grey {
+    color: rgba(255,255,255,0.3);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .detection-image-wrapper {
+        height: 400px;
+    }
+
+    .survival-rates {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .detection-title {
+        font-size: 2em;
+    }
+
+    .rate-value {
+        font-size: 2.8em;
+    }
+}
+</style>
+    <!-- Revolutionary Section -->
+<section class="revolutionary-section">
+    <div class="overlay-container">
+        <img src="https://www.shutterstock.com/image-photo/asian-professional-woman-doctor-suggests-260nw-1965426733.jpg" 
+             alt="Doctor Consultation" 
+             class="background-image">
+        <div class="overlay-content">
+            <div class="content-wrapper">
+                <h2 class="overlay-title">EasyCheck - Breast™ is Revolutionary</h2>
+                <div class="overlay-text">
+                    <p>EasyCheck - Breast™ is a diagnostic blood test that can enable early detection of Breast Cancer 
+                       in asymptomatic individuals. Make EasyCheck - Breast™ a part of your annual health-check plan 
+                       to de-risk yourself from Breast Cancer.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.revolutionary-section {
+    position: relative;
+    width: 100%;
+    margin: 50px 0;
+    overflow: hidden;
+}
+
+.overlay-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.overlay-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,139,139,0.9) 0%, rgba(0,139,139,0.7) 50%, rgba(0,139,139,0.4) 100%);
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    color: white;
+    transition: all 0.4s ease;
+}
+
+.content-wrapper {
+    max-width: 600px;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeInUp 0.8s forwards;
+}
+
+.overlay-title {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    color: #FFD700;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.overlay-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: #FFD700;
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+}
+
+.overlay-container:hover .overlay-title::after {
+    transform: scaleX(1);
+}
+
+.overlay-text {
+    font-size: 1.2em;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+.overlay-container:hover .background-image {
+    transform: scale(1.05);
+}
+
+.overlay-container:hover .overlay-content {
+    background: linear-gradient(135deg, rgba(0,139,139,0.95) 0%, rgba(0,139,139,0.8) 50%, rgba(0,139,139,0.6) 100%);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .overlay-container {
+        height: 400px;
+    }
+
+    .overlay-title {
+        font-size: 2em;
+    }
+
+    .overlay-text {
+        font-size: 1em;
+    }
+
+    .content-wrapper {
+        max-width: 100%;
+    }
+}
+</style>
+<!-- World Class Clinical Validations Section -->
+
+<!-- World Class Clinical Validations Section -->
+<section class="validations">
+    <h2 class="section-title">World Class Clinical Validations</h2>
+    <div class="validations-grid">
+        <div class="validation-card1">
+            <div class="journal-logo">
+                <img src="ijc-logo.png" alt="IJC Journal">
+            </div>
+            <h3>International Journal of Cancer</h3>
+            <p>Circulating Ensembles of Tumor Associated Cells: A Redoubtable New Systemic Hallmark of Cancer.</p>
+            <div class="card-overlay1">
+                <span class="read-more">Read Publication</span>
+            </div>
+        </div>
+
+        <div class="validation-card1">
+            <div class="journal-logo">
+                <img src="aacr-logo.png" alt="AACR">
+            </div>
+            <h3>American Association for Cancer Research</h3>
+            <p>Hallmark Circulating Tumour Associated Cell Clusters Signify 230 Times Higher One-Year Cancer Risk.</p>
+            <div class="card-overlay1">
+                <span class="read-more">Read Publication</span>
+            </div>
+        </div>
+
+        <div class="validation-card1">
+            <div class="journal-logo">
+                <img src="acs-logo.png" alt="ACS Journals">
+            </div>
+            <h3>Cancer Cytopathology</h3>
+            <p>Evaluation of Circulating Tumor Cell Clusters for Pan-Cancer Noninvasive Diagnostic Triaging.</p>
+            <div class="card-overlay1">
+                <span class="read-more">Read Publication</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Book Your Test Section -->
+<section class="book-test">
+    <div class="book-test-container">
+        <div class="test-image-wrapper">
+            <img src="https://labathome.in/images/home-blood-collection.jpg" alt="Blood Collection Process" class="test-image">
+            <div class="image-overlay1"></div>
+        </div>
+        <div class="test-content">
+            <h2>How to Order EasyCheck - Breast™?</h2>
+            <p>After submitting the completed Test Request Form (TRF), our representative will call you to fix an appointment for collection of a blood sample by our trained technician. The result will be communicated in 2 weeks from receipt of sample.</p>
+            <button class="book-btn">BOOK YOUR TEST</button>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Validations Section Styles */
+.validations {
+    padding: 80px 20px;
+    background: #f8f9fa;
+}
+
+.section-title {
+    text-align: center;
+    color: #008B8B;
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.section-title:after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, #008B8B, #FFD700);
+    margin: 20px auto;
+}
+
+.validations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.validation-card1 {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.validation-card1:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.card-overlay1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,139,139,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.validation-card1:hover .card-overlay1 {
+    opacity: 1;
+}
+
+.read-more {
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.read-more:hover {
+    background: white;
+    color: #008B8B;
+}
+
+/* Book Test Section Styles */
+.book-test {
+    padding: 60px 20px;
+    background: white;
+}
+
+.book-test-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.test-image-wrapper {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.test-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.test-image-wrapper:hover .test-image {
+    transform: scale(1.1);
+}
+
+.test-content {
+    padding: 40px;
+}
+
+.test-content h2 {
+    color: #008B8B;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.test-content p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.book-btn {
+    background: #FFD700;
+    color: #000;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+    background: #008B8B;
+    color: white;
+    transform: translateY(-2px);
+}
+.image-overlay1{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(0,139,139,0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .book-test-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .test-image-wrapper {
+        height: 300px;
+    }
+    
+    .test-content {
+        padding: 20px;
+    }
+}
+</style>
+</style>
+    <!-- FAQ Section -->
+    <section class="faq">
+        <h2>FAQ's</h2>
+        <div class="faq">
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <span class="faq-question">Does EasyCheck - Breast™ detect 'existence of cancer' or 'possibility of cancer'?</span>
+                <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">
+                EasyCheck - Breast™ is designed to detect the presence of specific biomarkers associated with breast cancer. The test provides an indication of cancer risk based on these markers.
+            </div>
+        
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <span class="faq-question">Does EasyCheck - Breast™ replace conventional cancer screening like mammography?</span>
+                <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">
+                EasyCheck - Breast™ is not intended to be and should not be considered a replacement for any Standard of Care screening tests.
+            </div>
+        
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <span class="faq-question">Does a 'negative' EasyCheck - Breast™ result mean that I am 'totally' cancer free?</span>
+                <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">
+                No. A negative result indicates no detected biomarkers associated with breast cancer at the time of testing, but it does not guarantee the complete absence of cancer.
+            </div>
+        
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <span class="faq-question">How frequently should EasyCheck - Breast™ be repeated?</span>
+                <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">
+                It is recommended to consult your doctor for personalized screening intervals based on your medical history and risk factors.
+            </div>
+        </div>
+        <!-- Add more FAQ items as shown in the images -->
+    </section>
+    
+    <!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-content">
+        <!-- Main Footer Grid -->
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Cancers</h3>
+                <ul>
+                    <li><a href="#brain">Brain Tumor</a></li>
+                    <li><a href="#breast">Breast</a></li>
+                    <li><a href="#colorectal">Colorectal</a></li>
+                    <li><a href="#gastrointestinal">Gastrointestinal</a></li>
+                    <li><a href="#gynecological">Gynecological</a></li>
+                    <li><a href="#head-neck">Head and Neck</a></li>
+                    <li><a href="#lung">Lung</a></li>
+                    <li><a href="#oral">Oral</a></li>
+                    <li><a href="#prostate">Prostate</a></li>
+                    <li><a href="#spine">Spine Tumors</a></li>
+                    <li><a href="#stomach">Stomach</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Life After Cancer</h3>
+                <ul>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#prevention">Prevention</a></li>
+                    <li><a href="#support">Support Group</a></li>
+                    <li><a href="#videos">Videos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Oncologists</h3>
+                <ul>
+                    <li><a href="#hematology">Hematology</a></li>
+                    <li><a href="#medical">Medical</a></li>
+                    <li><a href="#nuclear">Nuclear Medicine</a></li>
+                    <li><a href="#radiation">Radiation</a></li>
+                    <li><a href="#surgical">Surgical</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Services</h3>
+                <ul>
+                    <li><a href="#admission">Admission</a></li>
+                    <li><a href="#consultation">Consultation</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#first-visit">First Visit</a></li>
+                    <li><a href="#insurance">Insurance</a></li>
+                    <li><a href="#international">Int. Patients</a></li>
+                    <li><a href="#pay">Pay Online</a></li>
+                    <li><a href="#rehab">Rehabilitation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Address</h3>
+                <p>Apollo Hospitals Enterprise Ltd</p>
+                <p>5th Main Road, 7th Sector</p>
+                <p>HSR Layout, Bangalore - 560102</p>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> 040 48964515</p>
+                    <p><i class="fas fa-phone"></i> 1800 203 1066</p>
+                    <p><i class="fas fa-envelope"></i> help@apollocancercentres.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <h3>Subscribe to our newsletter</h3>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Enter Your Email" class="newsletter-input">
+                <button type="submit" class="newsletter-button">SUBMIT</button>
+            </div>
+        </div>
+
+        <!-- Disclaimer Section -->
+        <div class="disclaimer">
+            <p>EasyCheck™ - Breast is performed by sophisticated processes and equipment operated by highly skilled professionals. Yet, like every clinical procedure, EasyCheck™ - Breast has certain limitations.</p>
+            <p>We encourage you to study the 'White Paper' at easycheck360.com to know the limitations and performance characteristics of the test in detail.</p>
+            <p>In case of any questions, please contact <a href="mailto:response@easycheck360.com">response@easycheck360.com</a></p>
+            <p class="important-notice">Important: We do not perform this test on pregnant women.</p>
+            <p class="fda-notice">*Granted Breakthrough Device Designation by the US FDA*</p>
+        </div>
+
+        <!-- Copyright -->
+        <div class="copyright">
+            <p>© Copyright 2023 Apollo Hospitals Enterprises Ltd. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<style>
+.footer {
+    background: #008B8B;
+    color: white;
+    padding: 60px 0 0 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    color: #FFD700;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.footer-column h3:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #FFD700;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: #FFD700;
+    padding-left: 5px;
+}
+
+.newsletter-section {
+    text-align: center;
+    padding: 40px 0;
+    background: rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.newsletter-input {
+    padding: 12px;
+    width: 300px;
+    border: none;
+    border-radius: 4px;
+}
+
+.newsletter-button {
+    padding: 12px 30px;
+    background: #FFD700;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.newsletter-button:hover {
+    background: #fff;
+    color: #008B8B;
+}
+
+.disclaimer {
+    text-align: center;
+    padding: 30px 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.important-notice {
+    margin-top: 15px;
+    font-style: italic;
+}
+
+.fda-notice {
+    color: #FFD700;
+    margin-top: 10px;
+}
+
+.copyright {
+    text-align: center;
+    padding: 20px 0;
+    background: #FFD700;
+    color: #333;
+    margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .newsletter-input {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+</style>
+    <script>
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.form-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            document.getElementById('successMessage').style.display = 'block';
+            return false;
+        }
+
+        function toggleFaq(element) {
+        const answer = element.nextElementSibling;
+        const icon = element.querySelector('.faq-icon');
+
+        if (answer.style.display === 'block') {
+            answer.style.display = 'none';
+            icon.textContent = "+";
+        } else {
+            answer.style.display = 'block';
+            icon.textContent = "-";
+        }
+    }
+    </script>
+</body>
+</html>
