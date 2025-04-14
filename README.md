@@ -1,27 +1,96 @@
-# StudentManagementApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
 
-## Development server
+# Student Management App
 
-To start a local development server, run:
+Welcome to my **Student Management App**! This web-based application allows efficient management of student records with features like adding, editing, and deleting student information. It provides a user-friendly interface with pagination for viewing multiple students and supports file uploads for student profile pictures.
+
+---
+
+## 🚀 Features
+
+- **Student CRUD Operations:**  
+  Allows users to **Add**, **Edit**, and **Delete** student records with ease.
+
+- **Pagination:**  
+  Supports navigating through multiple pages of student records with a dynamic page control system.
+
+- **File Upload:**  
+  Users can upload profile pictures for students, with validation to ensure only valid image types (JPEG/PNG) and sizes under 2MB.
+
+- **Form Management:**  
+  Dynamic forms for adding and editing student details, providing a smooth and responsive user experience.
+
+- **User-Friendly Interface:**  
+  Designed with simplicity and ease of use in mind, ensuring a seamless interaction with the application.
+
+---
+
+## ⚙️ Technologies Used
+
+- **Frontend:**  
+  - Angular
+  - TypeScript
+  - HTML, CSS
+  - FormsModule, CommonModule
+
+- **Backend (API):**  
+  - Integrated via `StudentService` (API calls to manage students)
+
+---
+
+## 📜 Project Details
+
+- **Student CRUD Operations**  
+  This app allows for managing a student database with Create, Read, Update, and Delete operations.
+
+- **Dynamic Pagination:**  
+  Automatically handles pages and allows for quick navigation through multiple pages of student data.
+
+- **File Uploading Feature:**  
+  Secure file upload feature for student profile images with type and size restrictions.
+
+---
+
+## 📦 Installation and Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/StudentManagementApp.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd StudentManagementApp
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Run the development server:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be available at [http://localhost:4200/](http://localhost:4200/).
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📫 Contact Me
 
-```bash
-ng generate component component-name
-```
+Feel free to reach out if you have any questions or feedback!
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**📧 Email:** [yedlashivakumar1@gmail.com](mailto:yedlashivakumar1@gmail.com)  
+**🔗 LinkedIn:** [Yedla Shiva Kumar](https://www.linkedin.com/in/yedla-shiva-kumar/)
 
+---
+
+Let me know if you need any further modifications!
 ```bash
 ng generate --help
 ```
